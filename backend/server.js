@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import { userModel } from './database/user.model.js'
 import { todoModel } from './database/todo.model.js'
 import cors from 'cors'
+import dotenv from 'dotenv'
 const app = express()
 
 //middleware
@@ -113,8 +114,8 @@ app.delete('/todo/delete/:id', async (req,res)=>{
 
 
 
-
-const connect = mongoose.connect("mongodb://localhost:27017/todoapp").then(()=>{console.log('MONGODB CONNECTED')}).catch((err)=>{console.log(err.message)})
+dotenv.config()
+const connect = mongoose.connect(process.env.MONGO_URL).then(()=>{console.log('MONGODB CONNECTED')}).catch((err)=>{console.log(err.message)})
 
 app.listen(3000, ()=>{
     if(connect)
