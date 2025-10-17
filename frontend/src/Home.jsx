@@ -10,7 +10,7 @@
 //     e.preventDefault();
 //     if(!newTodo.trim()) return;
 //     try {
-//       const response = await axios.post("http://localhost:3000/todo/create", { title: newTodo, email: email })
+//       const response = await axios.post("https://nm-project-gq9z.onrender.com/todo/create", { title: newTodo, email: email })
 //       setTodos([...todos, response.data])
 //       setNewTodo('');
 //     } catch(error) {
@@ -23,7 +23,7 @@
 
 //   const fetchTodos = async () => {
 //     try {
-//       const response = await axios.post("http://localhost:3000/todo/get", {email});
+//       const response = await axios.post("https://nm-project-gq9z.onrender.com/todo/get", {email});
 //       setTodos(response.data.response)
 
 //     }catch (error){
@@ -94,7 +94,7 @@ function Home() {
     if (!newTodo.trim()) return;
 
     try {
-      const response = await axios.post("http://localhost:3000/todo/create", {
+      const response = await axios.post("https://nm-project-gq9z.onrender.com/todo/create", {
         title: newTodo,
         email,
       });
@@ -108,7 +108,7 @@ function Home() {
   // 🔹 Fetch todos
   const fetchTodos = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/todo/get", {
+      const response = await axios.post("https://nm-project-gq9z.onrender.com/todo/get", {
         email,
       });
       setTodos(response.data.response);
@@ -120,7 +120,7 @@ function Home() {
   // 🔹 Delete todo
   const deleteTodo = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/todo/delete/${id}`);
+      await axios.delete(`https://nm-project-gq9z.onrender.com/todo/delete/${id}`);
       setTodos(todos.filter((todo) => todo._id !== id));
     } catch (error) {
       console.log("Error deleting todo:", error);
@@ -137,7 +137,7 @@ function Home() {
   const saveEdit = async (id) => {
     if (!editValue.trim()) return;
     try {
-      await axios.put(`http://localhost:3000/todo/getone`, {
+      await axios.put(`https://nm-project-gq9z.onrender.com/todo/getone`, {
         title: editValue,
         email,
         todoId: id

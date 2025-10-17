@@ -19,7 +19,7 @@ function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/create", formData);
+      const response = await axios.post("https://nm-project-gq9z.onrender.com/api/create", formData);
       alert("Signup successful");
       navigate("/login");
     } catch (error) {
