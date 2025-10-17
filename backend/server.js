@@ -2,11 +2,12 @@ import express from 'express'
 import mongoose from 'mongoose'
 import { userModel } from './database/user.model.js'
 import { todoModel } from './database/todo.model.js'
-
+import cors from 'cors'
 const app = express()
 
 //middleware
 app.use(express.json())
+app.use(cors())
 
 app.get('/health', (req,res)=>{
     res.status(200).json({"message": "working"})
@@ -15,12 +16,12 @@ app.get('/health', (req,res)=>{
 //create user
 app.post('/api/create', async (req,res)=>{
     try {
-        const {email, password} = req.body
+        const {email, password, username, dob} = req.body
         if(!email)
             res.status(404).json({"message": "email required", "success": false} )
         if(!password)
             res.status(404).json({"message": "password required", "success": false} )
-        const response = await userModel.create({email, password})
+        const response = await userModel.create({email, password, username, dob})
         res.status(201).json({"message": "user created", response})
     } catch (error) {
         res.status(404).json({"message": error.message, "success": false} )
@@ -64,7 +65,7 @@ app.post('/todo/create', async (req,res)=>{
     }
 })
 
-//create todo
+//get todo
 app.post('/todo/get', async (req,res)=>{
     try {
         const {email} = req.body
@@ -74,6 +75,37 @@ app.post('/todo/get', async (req,res)=>{
 
         const response = await todoModel.find({users: [userdata._id]})
         res.status(200).json({"message": "todo fetched", response})
+    } catch (error) {
+        res.status(404).json({"message": error.message, "success": false} )
+    }
+})
+
+//update todo
+app.put('/todo/getone', async (req,res)=>{
+    try {
+        const {todoId, title} = req.body
+        const userdata = await todoModel.findOneAndUpdate({_id: todoId}, {title})
+        console.log(userdata)
+        if(!userdata)
+            res.status(404).json({"message": "email invalid", "success": false} )
+
+        res.status(200).json({"message": "todo fetched", userdata})
+    } catch (error) {
+        res.status(404).json({"message": error.message, "success": false} )
+    }
+})
+
+//del todo
+app.delete('/todo/delete/:id', async (req,res)=>{
+    try {
+        const {id} = req.params
+        const userdata = await todoModel.findOneAndDelete({_id: id})
+
+        if(!userdata)
+            res.status(404).json({"message": "no id is there", "success": false} )
+
+        
+        res.status(200).json({"message": "todo fetched", userdata})
     } catch (error) {
         res.status(404).json({"message": error.message, "success": false} )
     }
