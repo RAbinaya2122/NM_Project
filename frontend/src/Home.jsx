@@ -80,13 +80,14 @@
 
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { PiCornersOutLight } from "react-icons/pi";
 
 function Home() {
   const [newTodo, setNewTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [editId, setEditId] = useState(null);
   const [editValue, setEditValue] = useState("");
-  const email = JSON.parse(localStorage.getItem("email"));
+  var email; 
 
   // 🔹 Add new todo
   const addTodo = async (e) => {
@@ -155,6 +156,7 @@ function Home() {
   };
 
   useEffect(() => {
+    email =  localStorage.getItem("email");
     fetchTodos();
   }, []);
 
